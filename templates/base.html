@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>UPS Routing System</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+
+</head>
+
+<body>
+
+<div class="content">
+<div class="sidebar">
+
+<h2>UPS</h2>
+
+<a href="/">Dashboard</a>
+<a href="/packages">All Packages</a>
+
+</div>
+
+<div class="main">
+{% block content %}
+
+{% endblock %}
+    </div>
+</div>
+
+
+</body>
+</html>

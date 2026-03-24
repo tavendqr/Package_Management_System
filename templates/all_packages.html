@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<head>
+<title>UPS Routing System</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='all_packages.css') }}">
+
+</head>
+
+<h1>All Packages</h1>
+
+<div class="table_container">
+
+<table>
+
+<tr>
+<th>ID</th>
+<th>Address</th>
+<th>City</th>
+<th>State</th>
+<th>Zip</th>
+<th>Deadline</th>
+<th>Weight</th>
+<th>Status</th>
+<th>Truck</th>
+<th>Delivery Time</th>
+</tr>
+
+
+{% for package in packages.values() %}
+
+<tr>
+
+<td>{{ package.pid }}</td>
+<td class="address">{{ package.address }}</td>
+<td>{{ package.city }}</td>
+<td>{{ package.state }}</td>
+<td>{{ package.zipcode }}</td>
+<td>{{ package.deadline }}</td>
+<td>{{ package.weight }}</td>
+<td>{{ package.status }}</td>
+<td>{{ package.truck_number }}</td>
+<td>{{ package.delivery }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

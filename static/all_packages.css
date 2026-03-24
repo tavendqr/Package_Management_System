@@ -1,0 +1,45 @@
+table {
+    border-collapse: collapse;
+    width: 80%;
+    box-shadow: 2px 2px 2px 2px  rgba(200, 204, 207, 0.3);
+    border-radius: 15px;
+}
+
+th, td {
+    text-align: center;
+    border: none;
+    padding: 10px;
+}
+
+.address {
+    min-width: 100px;
+}
+
+th {
+    background-color: #5a68ff;
+}
+
+th:first-child {
+    border-top-left-radius: 15px;
+}
+
+th:last-child {
+    border-top-right-radius: 15px;
+}
+
+
+
+
+tr:nth-child(odd) {
+    background-color: #89D4FF;
+}
+
+tr {
+    border: none;
+}
+
+td {
+
+
+}
+

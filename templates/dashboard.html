@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+<div class="dashboard">
+
+<h1>Dashboard Overview</h1>
+<p class="subtitle">Real-time tracking of delivery operations.</p>
+
+<div class="slider-box">
+
+    <div class="time">
+        <h2>Simulation Time</h2>
+        <div class="display" id="value">
+             AM
+        </div>
+        </div>
+
+<input
+type="range"
+min="8"
+max="14"
+value="8"
+step=".25"
+name="time"
+class="time-slider"
+id ="slider"
+/>
+
+
+   <div class="time">
+        <h3 class="grey">08:00AM</h3>
+        <h3 class="grey">START OF SHIFT</h3>
+        <h3 class="grey">02:00PM</h3>
+    </div>
+    </div>
+
+<div class="top">
+    <div class="box">
+        <h3 style="margin-left:10px" class="grey">Total Mileage</h3>
+        <h1 style="margin-top:-10px; margin-left:10px" id="total-miles">{{ total_miles }} mi</h1>
+    </div>
+    <div class="box">
+        <h3 style="margin-left:10px" class="grey">Packages Delivered</h3>
+        <h1 style="margin-top:-10px; margin-left:10px" id="delivered">{{ packages_delivered }}</h1>
+    </div>
+    <div class="box">
+        <h3 style="margin-left:10px" class="grey">Delivery Rate</h3>
+        <h1 style="margin-top:-10px; margin-left: 10px" id="rate">{{ delivery_rate }} %</h1>
+    </div>
+
+</div>
+
+<h1>Fleet Status</h1>
+
+<div class="top trucks">
+        <div class="truck">
+            <h3>Truck 1</h3>
+            <h3 class="bley">ID: #1001</h3>
+            <h3 class="bley">Current Location</h3>
+            <h3 id="addOne">XXXX South XXX East</h3>
+            <div class="atop">
+                <div class="amount">
+                    <h3 class="grey" >On Board</h3>
+                    <h3 id="boardOne">X</h3>
+                </div>
+                <div class="amount">
+                    <h3 class="grey" >Mileage</h3>
+                    <h3 id="mileOne">XX mi</h3>
+                </div>
+            </div>
+
+        </div>
+        <div class="truck">
+            <h3>Truck 2</h3>
+            <h3 class="bley">ID: #1002</h3>
+            <h3 class="bley">Current Location</h3>
+            <h3 id="addTwo">XXXX South XXX East</h3>
+              <div class="atop">
+                <div class="amount">
+                    <h3 class="grey" >On Board</h3>
+                    <h3 id="boardTwo">X</h3>
+                </div>
+                <div class="amount">
+                    <h3 class="grey" >Mileage</h3>
+                    <h3 id="mileTwo">XX mi</h3>
+                </div>
+            </div>
+        </div>
+        <div class="truck">
+            <h3>Truck 3</h3>
+            <h3 class="bley">ID: #1003</h3>
+            <h3 class="bley">Current Location</h3>
+            <h3 id="addThree">XXXX South XXX East</h3>
+              <div class="atop">
+                <div class="amount">
+                    <h3 class="grey">On Board</h3>
+                    <h3  id="boardThree">X</h3>
+                </div>
+                <div class="amount">
+                    <h3 class="grey" >Mileage</h3>
+                    <h3 id="mileThree">XX mi</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<script>
+const slider = document.getElementById("slider");
+const output = document.getElementById("value");
+const delivered = document.getElementById("delivered");
+const rate = document.getElementById("rate");
+
+const addOne = document.getElementById("addOne");
+const addTwo = document.getElementById("addTwo");
+const addThree = document.getElementById("addThree");
+
+const boardOne = document.getElementById("boardOne");
+const boardTwo = document.getElementById("boardTwo");
+const boardThree = document.getElementById("boardThree");
+
+const mileOne = document.getElementById("mileOne");
+const mileTwo = document.getElementById("mileTwo");
+const mileThree = document.getElementById("mileThree");
+
+console.log(addThree)
+
+const totalMilesElem = document.getElementById("total-miles");
+
+function formatTime(hour) {
+    let ampm = hour >= 12 ? 'PM' : 'AM';
+    let displayHour = Math.floor(hour);
+    let displayMinute = Math.round((hour-displayHour) * 60)
+    displayHour = displayHour % 12
+
+    if (displayHour === 0) displayHour = 12;
+
+    return displayHour + ':' + displayMinute.toString().padStart(2, '0') + ampm;
+}
+
+output.textContent = formatTime(slider.value);
+
+slider.addEventListener("input", () => {
+    output.textContent = formatTime(slider.value);
+
+    fetch("/slider", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({value: slider.value})
+    })
+    .then(res => res.json())
+    .then(data => {
+        totalMilesElem.textContent = data.total_miles + " mi";
+        delivered.textContent = data.packages_delivered;
+        rate.textContent = Math.round(data.delivery_rate) + " %";
+        addOne.textContent = data.addOne;
+        addTwo.textContent = data.addTwo;
+        addThree.textContent = data.addThree;
+
+        boardOne.textContent = data.boardOne;
+        boardTwo.textContent = data.boardTwo;
+        boardThree.textContent = data.boardThree;
+
+        mileOne.textContent = Math.round(data.mileOne);
+        mileTwo.textContent = Math.round(data.mileTwo);
+        mileThree.textContent = Math.round(data.mileThree);
+    });
+
+
+
+});
+</script>
+
+{% endblock %}

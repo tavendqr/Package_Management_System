@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    overflow-x: hidden;
+    background-color: rgb(200, 246, 254);
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+    min-width: 150px;
+    height: 100vh;
+    box-shadow: 2px 2px 3px  rgba(200, 204, 207, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.content {
+     display: flex;
+    min-height: 100vh;
+
+}
+
+.main {
+    flex: 1;
+    padding: 30px;
+    margin-left: 250px;
+    min-width: 0;
+}
+
+.sidebar a {
+    box-shadow: 0px 0px 5px  rgba(150, 154, 157, 0.3);
+    padding: 8px 10px 8px 10px;
+    margin: 10px;
+    width: 80%;
+    border-radius: 5px;
+    text-decoration: none;
+    color: grey;
+}
+
+
+.sidebar a {
+    color: #023e7d;
+}
