@@ -13,7 +13,7 @@ total_miles = 0
 packages_delivered = 0
 delivery_rate = 0
 packages = HashMap()
-slider_value = 0
+slider_value = 8
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -22,19 +22,21 @@ def index():
 
     run_deliveries(slider_value)
 
-    return render_template("dashboard.html", total_miles = total_miles, packages_delivered = packages_delivered, delivery_rate = delivery_rate)
+    return render_template("dashboard.html", total_miles = total_miles, packages_delivered = packages_delivered, delivery_rate = delivery_rate, slider_value = slider_value)
 
 @app.route("/packages")
 def all_packages():
 
     from main import get_packages
 
-    packages = get_packages()
+
+    packages = get_packages(slider_value)
     return render_template("all_packages.html", packages=packages)
 
 
 @app.route("/slider", methods=["POST"])
 def slider():
+    global slider_value
 
     from main import run_deliveries
     data = request.get_json()

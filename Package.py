@@ -29,10 +29,6 @@ class Package:
         else:
             self.status = "At Hub"
 
-        if self.pid == 9:
-            if convert_timedelta > datetime.timedelta(hours=10, minutes=20):
-                self.address = "410 State St"
-                self.zipcode = "84111"
         return self.status
 
 

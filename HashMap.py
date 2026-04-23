@@ -43,7 +43,7 @@ class HashMap:
         for bucket in self.list:
             if bucket:
                 for key, value in bucket:
-                    result[key] = serialize(value)
+                    result[key] = value
 
         return result
 

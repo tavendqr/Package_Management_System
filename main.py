@@ -47,6 +47,7 @@ def get_address(address):
             return int(row[0])
 
 
+
 packageHash = HashMap()
 
 package_loader("CSV/UPS_Package_File.csv", packageHash)
@@ -144,10 +145,9 @@ def run_deliveries(slider_value):
     addTwo = truck2.address
     addThree = truck3.address
 
-    boardOne = packageHash.get(truck1.packages[1]).update_status(stop_time)
-    boardTwo = packageHash.get(truck2.packages[1]).update_status(stop_time)
-    boardThree = packageHash.get(truck3.packages[1]).update_status(stop_time)
-
+    boardOne = get_current_package_status(truck1, stop_time)
+    boardTwo = get_current_package_status(truck2, stop_time)
+    boardThree = get_current_package_status(truck3, stop_time)
 
     mileOne, mileTwo, mileThree = truck1.mileage, truck2.mileage, truck3.mileage
 
@@ -155,10 +155,25 @@ def run_deliveries(slider_value):
     return (truck1.mileage + truck2.mileage + truck3.mileage, packages_delivered, delivery_rate, addOne, addTwo,
             addThree, boardOne, boardTwo, boardThree, mileOne, mileTwo, mileThree)
 
-def get_packages():
+def get_packages(slider_value):
+    stop_time = get_user_time(slider_value)
+    for package in packageHash.to_dict().values():
+        package.update_status(stop_time)
+    return  packageHash.to_dict()
 
-    return  (packageHash.to_dict())
+
 def get_user_time(slider_value):
     base_time = datetime.timedelta(hours=0)
     return base_time + datetime.timedelta(hours=slider_value)
+
+
+def get_current_package_status(truck, stop_time):
+    for pid in truck.packages:
+        pkg = packageHash.get(pid)
+        pkg.update_status(stop_time)
+
+        if pkg.status != "Delivered":
+            return pkg.status
+
+    return packageHash.get(truck.packages[-1]).status
 
